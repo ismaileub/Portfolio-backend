@@ -1,6 +1,8 @@
+import cookieParser from "cookie-parser";
 import compression from "compression";
 import cors from "cors";
 import express from "express";
+import adminRoute from "./app/controllers/admin.controller";
 
 const app = express();
 
@@ -8,6 +10,7 @@ const app = express();
 app.use(cors()); // Enables Cross-Origin Resource Sharing
 app.use(compression()); // Compresses response bodies for faster delivery
 app.use(express.json()); // Parse incoming JSON requests
+app.use(cookieParser());
 
 app.use(
   cors({
@@ -16,7 +19,7 @@ app.use(
   })
 );
 
-// app.use("/api/v1/user", userRouter);
+app.use("/api/admin", adminRoute);
 
 // Default route for testing
 app.get("/", (_req, res) => {
