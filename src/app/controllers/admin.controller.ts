@@ -24,14 +24,15 @@ adminRoute.post("/login", async (req: Request, res: Response) => {
     // 3️⃣ Sign JWT token
     const token = jwt.sign(
       { email: admin.email },
-      process.env.JWT_SECRET as string
+      process.env.JWT_SECRET as string,
+      { expiresIn: "1d" }
     );
 
     // 4️⃣ Send token as HTTP-only cookie
-    res.cookie("admin-token", token, {
+    res.cookie("admin_token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      // secure: process.env.NODE_ENV === "production",
+      // sameSite: "strict",
     });
 
     res.json({ message: "Admin logged in successfully" });

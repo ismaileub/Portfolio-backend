@@ -1,13 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import { User } from "../models/user.model";
 
 interface JwtPayload {
   email: string;
 }
 
-const checkAdmin = (req: Request, res: Response, next: NextFunction) => {
+const checkAdmin = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = req.cookies?.token; // token stored in cookie
+    const token = req.cookies?.admin_token; // token stored in cookie
     if (!token) {
       return res.status(401).json({ message: "No token provided" });
     }
@@ -17,12 +18,13 @@ const checkAdmin = (req: Request, res: Response, next: NextFunction) => {
       process.env.JWT_SECRET as string
     ) as JwtPayload;
 
+    const isAdmin = await User.findOne({ email: decoded.email });
     // Only check email
-    if (decoded.email !== process.env.ADMIN_EMAIL) {
+    if (!isAdmin) {
       return res.status(403).json({ message: "Access denied: Not admin" });
     }
 
-    req.user = decoded; // attach decoded info to req.user
+    // req.user = decoded; // attach decoded info to req.user
     next();
   } catch (err) {
     return res.status(403).json({ message: "Invalid or expired token" });
