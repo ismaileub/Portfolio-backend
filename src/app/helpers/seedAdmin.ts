@@ -5,6 +5,7 @@ export async function seedAdmin() {
   try {
     const adminEmail = process.env.ADMIN_EMAIL as string;
     const adminPass = process.env.ADMIN_PASS as string;
+    const name = process.env.ADMIN_NAME as string;
 
     const existingAdmin = await User.findOne({ email: adminEmail });
     if (!existingAdmin) {
@@ -12,6 +13,7 @@ export async function seedAdmin() {
       await User.create({
         email: adminEmail,
         password: hashedPass,
+        name,
       });
       console.log(`✅ Admin created: ${adminEmail}`);
     } else {

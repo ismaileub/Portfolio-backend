@@ -22,20 +22,25 @@ adminRoute.post("/login", async (req: Request, res: Response) => {
     }
 
     // 3️⃣ Sign JWT token
-    const token = jwt.sign(
+    const admin_token = jwt.sign(
       { email: admin.email },
       process.env.JWT_SECRET as string,
       { expiresIn: "1d" }
     );
 
     // 4️⃣ Send token as HTTP-only cookie
-    res.cookie("admin_token", token, {
-      httpOnly: true,
-      // secure: process.env.NODE_ENV === "production",
-      // sameSite: "strict",
-    });
+    // res.cookie("admin_token", token, {
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: "lax",
+    // });
 
-    res.json({ message: "Admin logged in successfully" });
+    res.json({
+      id: admin._id,
+      name: admin.name,
+      admin_token,
+      email: admin.email,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
