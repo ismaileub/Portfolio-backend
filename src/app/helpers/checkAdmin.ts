@@ -8,8 +8,7 @@ interface JwtPayload {
 
 const checkAdmin = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token =
-      req.cookies?.admin_token || req.headers["authorization"]?.split(" ")[1]; // token stored in cookie
+    const token = req.headers.authorization;
     if (!token) {
       return res.status(401).json({ message: "No token provided" });
     }

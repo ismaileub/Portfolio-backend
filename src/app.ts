@@ -5,6 +5,7 @@ import express from "express";
 import adminRoute from "./app/controllers/admin.controller";
 import blogRoute from "./app/controllers/blog.controller";
 import projectRoute from "./app/controllers/project.controller";
+import aboutMeRouter from "./app/controllers/aboutMe.controller";
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(
 app.use("/api/blog", blogRoute);
 app.use("/api/admin", adminRoute);
 app.use("/api/project", projectRoute);
+app.use("/api/aboutMe", aboutMeRouter);
 
 // Default route for testing
 app.get("/", (_req, res) => {
