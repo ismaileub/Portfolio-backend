@@ -1,7 +1,7 @@
 // routes/about.ts
 import express, { Request, Response } from "express";
-import aboutMe from "../models/aboutMe";
 import checkAdmin from "../helpers/checkAdmin";
+import aboutMe from "../models/AboutMe";
 
 const aboutMeRouter = express.Router();
 
